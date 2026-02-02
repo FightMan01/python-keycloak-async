@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "python-keycloak-async"
-version = "0.0.0"
+version = "2.17.2"
 description = "python-keycloak-async is a Python package providing access to the Keycloak API."
 license = "MIT"
 readme = "README.md"
@@ -30,8 +30,8 @@ Documentation = "https://github.com/quangpq/python-keycloak-async"
 "Issue tracker" = "https://github.com/quangpq/python-keycloak-async/issues"
 
 [tool.poetry.dependencies]
-python = "^3.9"
-httpx = "^0.24.0"
+python = ">=3.9,<3.16"
+httpx = "^0.28.1"
 aiofiles = "^23.1.0"
 python-jose = "^3.3.0"
 mock = {version = "^4.0.3", optional = true}

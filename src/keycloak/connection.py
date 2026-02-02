@@ -65,12 +65,17 @@ class ConnectionManager(object):
         self.headers = headers
         self.timeout = timeout
         self.verify = verify
-        self._s = httpx.AsyncClient(verify=verify, proxies=proxies)
+        mounts = None
+        if proxies:
+            mounts = {}
+            for pattern, proxy_url in proxies.items():
+                mounts[pattern] = httpx.AsyncHTTPTransport(proxy=proxy_url, retries=1)
+        self._s = httpx.AsyncClient(
+            verify=verify,
+            transport=httpx.AsyncHTTPTransport(retries=1),
+            mounts=mounts,
+        )
         self._s.auth = None  # don't let requests add auth headers
-
-        # retry once to reset connection with Keycloak after  tomcat's ConnectionTimeout
-        # see https://github.com/marcospereirampj/python-keycloak/issues/36
-        self._s.transport = httpx.AsyncHTTPTransport(retries=1)
 
     async def aclose(self):
         if hasattr(self, "_s"):
